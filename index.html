@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WM Cattle Valuation Calculator</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f8f4ee; color: #2e2b2a; margin: 0; padding: 0; }
+    header { background-color: #3d2914; padding: 1rem; text-align: center; }
+    header img { max-width: 180px; }
+    .container { padding: 1.5rem; max-width: 700px; margin: auto; }
+    label { display: block; margin-top: 1rem; font-weight: bold; }
+    select, input { width: 100%; padding: 0.5rem; margin-top: 0.3rem; border: 1px solid #ccc; border-radius: 4px; }
+    button { background: #6b4e2e; color: white; border: none; padding: 0.75rem; margin-top: 1.2rem; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #5a4025; }
+    .ref-btn { background: none; border: none; color: #3d2914; text-decoration: underline; cursor: pointer; font-size: 0.9rem; margin-top: 0.5rem; }
+    .ref-content { display: none; background: #f1ede6; padding: 0.75rem; margin-top: 0.5rem; border-left: 4px solid #a57c52; border-radius: 4px; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="WM Cattle Logo">
+  </header>
+  <div class="container">
+    <h1>WM Cattle Valuation Calculator</h1>
+    <label for="category">Category</label>
+    <select id="category">
+      <option value="">Select...</option>
+      <option value="Feeder">Feeder Cattle</option>
+      <option value="Slaughter">Slaughter Cattle</option>
+      <option value="Replacement">Replacement Cattle</option>
+    </select>
+
+    <label for="subcategory">Subcategory</label>
+    <select id="subcategory">
+      <option>Steers</option>
+      <option>Heifers</option>
+      <option>Bulls</option>
+    </select>
+
+    <label for="class">Class</label>
+    <select id="class">
+      <option>Large 1</option>
+      <option>Large 2</option>
+      <option>Medium 1</option>
+      <option>Small 1</option>
+    </select>
+    <button class="ref-btn" onclick="toggleRef('classRef')">Class Reference</button>
+    <div id="classRef" class="ref-content">Large: tall/long-bodied, Medium: moderate, Small: short frame.</div>
+
+    <label for="weight">Weight</label>
+    <input type="text" id="weight" placeholder="e.g., 600-700 lbs">
+    <button class="ref-btn" onclick="toggleRef('weightRef')">Weight Abbreviations</button>
+    <div id="weightRef" class="ref-content">CWT = 100 lbs, light: &lt;400, medium: 400-800, heavy: &gt;800.</div>
+
+    <label for="age">Age</label>
+    <input type="text" id="age" placeholder="e.g., 12-18 months">
+    <button class="ref-btn" onclick="toggleRef('ageRef')">Age Categories</button>
+    <div id="ageRef" class="ref-content">Calf: &lt;12 mo, Yearling: 12–24 mo, Mature: &gt;24 mo.</div>
+
+    <button class="ref-btn" onclick="toggleRef('auctionRef')">Auction Terms</button>
+    <div id="auctionRef" class="ref-content">Value Added: premium; Per Head: sold by head; Gaunt: lean; Full: excessive fill; Fancy: premium; Fleshy: moderate fat.</div>
+
+    <button onclick="alert('Value calculated using July 11 prices!')">Calculate Value</button>
+  </div>
+  <script>
+    function toggleRef(id) {
+      const el = document.getElementById(id);
+      el.style.display = el.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</body>
+</html>
