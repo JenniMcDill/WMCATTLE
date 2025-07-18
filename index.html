@@ -3,71 +3,188 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>WM Cattle Valuation Calculator</title>
   <style>
-    body { font-family: 'Segoe UI', sans-serif; background: #f8f4ee; color: #2e2b2a; margin: 0; padding: 0; }
-    header { background-color: #3d2914; padding: 1rem; text-align: center; }
-    header img { max-width: 180px; }
-    .container { padding: 1.5rem; max-width: 700px; margin: auto; }
-    label { display: block; margin-top: 1rem; font-weight: bold; }
-    select, input { width: 100%; padding: 0.5rem; margin-top: 0.3rem; border: 1px solid #ccc; border-radius: 4px; }
-    button { background: #6b4e2e; color: white; border: none; padding: 0.75rem; margin-top: 1.2rem; border-radius: 4px; cursor: pointer; }
-    button:hover { background: #5a4025; }
-    .ref-btn { background: none; border: none; color: #3d2914; text-decoration: underline; cursor: pointer; font-size: 0.9rem; margin-top: 0.5rem; }
-    .ref-content { display: none; background: #f1ede6; padding: 0.75rem; margin-top: 0.5rem; border-left: 4px solid #a57c52; border-radius: 4px; font-size: 0.9rem; }
+    body { font-family: 'Segoe UI', sans-serif; background:#f8f4ee; color:#2e2b2a; margin:0; padding:0; }
+    header { background:#3d2914; padding:1rem; text-align:center; }
+    header img { max-width:200px; }
+    .container { max-width:700px; margin:1rem auto; padding:1rem; background:#fff; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    h1 { margin-top:0; color:#5b3c11; }
+    label { display:block; margin:1rem 0 0.3rem; font-weight:bold; }
+    select,input { width:100%; padding:0.6rem; font-size:1rem; border:1px solid #ccc; border-radius:6px; }
+    button { margin-top:1rem; padding:0.6rem 1.2rem; background:#6b4e2e; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+    button:hover { background:#5a4025; }
+    .ref-btn { background:none; border:none; color:#3d2914; text-decoration:underline; cursor:pointer; font-size:0.9rem; margin:0.5rem 0; }
+    .ref-content { display:none; background:#f1ede6; padding:0.75rem; border-left:4px solid #a57c52; border-radius:4px; font-size:0.9rem; margin-bottom:1rem; }
+    #result { margin-top:1.5rem; font-size:1.2rem; font-weight:bold; text-align:center; }
+    @media(max-width:600px){ .container{margin:0.5rem;padding:0.75rem;} button, select, input{font-size:0.9rem;} }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="WM Cattle Logo">
+    <img src="https://static.wixstatic.com/media/e8bb70_f53d8c1669c747a8814c54b8a79be663~mv2.png" alt="WM Cattle Logo">
   </header>
   <div class="container">
-    <h1>WM Cattle Valuation Calculator</h1>
-    <label for="category">Category</label>
-    <select id="category">
-      <option value="">Select...</option>
-      <option value="Feeder">Feeder Cattle</option>
-      <option value="Slaughter">Slaughter Cattle</option>
-      <option value="Replacement">Replacement Cattle</option>
-    </select>
+    <h1>WM Cattle Valuation</h1>
 
-    <label for="subcategory">Subcategory</label>
-    <select id="subcategory">
-      <option>Steers</option>
-      <option>Heifers</option>
-      <option>Bulls</option>
-    </select>
-
-    <label for="class">Class</label>
-    <select id="class">
-      <option>Large 1</option>
-      <option>Large 2</option>
-      <option>Medium 1</option>
-      <option>Small 1</option>
-    </select>
-    <button class="ref-btn" onclick="toggleRef('classRef')">Class Reference</button>
-    <div id="classRef" class="ref-content">Large: tall/long-bodied, Medium: moderate, Small: short frame.</div>
-
-    <label for="weight">Weight</label>
-    <input type="text" id="weight" placeholder="e.g., 600-700 lbs">
-    <button class="ref-btn" onclick="toggleRef('weightRef')">Weight Abbreviations</button>
-    <div id="weightRef" class="ref-content">CWT = 100 lbs, light: &lt;400, medium: 400-800, heavy: &gt;800.</div>
-
+    <!-- General Fields -->
     <label for="age">Age</label>
-    <input type="text" id="age" placeholder="e.g., 12-18 months">
-    <button class="ref-btn" onclick="toggleRef('ageRef')">Age Categories</button>
-    <div id="ageRef" class="ref-content">Calf: &lt;12 mo, Yearling: 12–24 mo, Mature: &gt;24 mo.</div>
+    <input type="text" id="age" placeholder="e.g. Short Yearling"/>
+    <button class="ref-btn" onclick="toggleRef('ageRef')">📘 Age Categories</button>
+    <div id="ageRef" class="ref-content">
+      Baby Calf &lt;3 mo; Short Yearling 6–12 mo; Long Yearling 12–18 mo; 2 Year Old 18–30 mo; Young 3–4 yr; SSM 5–8 yr; BM 8–10 yr; Aged 10+; Cull.
+    </div>
 
-    <button class="ref-btn" onclick="toggleRef('auctionRef')">Auction Terms</button>
-    <div id="auctionRef" class="ref-content">Value Added: premium; Per Head: sold by head; Gaunt: lean; Full: excessive fill; Fancy: premium; Fleshy: moderate fat.</div>
+    <label for="weight">Weight (lbs)</label>
+    <input type="number" id="weight" placeholder="e.g. 700"/>
+    <button class="ref-btn" onclick="toggleRef('weightRef')">📘 Weight Abbreviations</button>
+    <div id="weightRef" class="ref-content">
+      CWT=100 lbs; Light &lt;400; Medium 400–800; Heavy &gt;800.
+    </div>
 
-    <button onclick="alert('Value calculated using July 11 prices!')">Calculate Value</button>
+    <!-- Category/Subcategory/Class -->
+    <label for="category">Category</label>
+    <select id="category" onchange="buildSub()">
+      <option value="">-- Select --</option>
+      <option value="feeder">Feeder Cattle</option>
+      <option value="slaughter">Slaughter Cattle</option>
+      <option value="replacement">Replacement Cattle</option>
+    </select>
+
+    <label for="subcat">Subcategory</label>
+    <select id="subcat" onchange="buildClass()" disabled>
+      <option>--</option>
+    </select>
+
+    <label for="clazz">Class</label>
+    <select id="clazz" onchange="maybeStage()" disabled>
+      <option>--</option>
+    </select>
+    <button class="ref-btn" onclick="toggleRef('classRef')">📘 Frame/Grade Ref</button>
+    <div id="classRef" class="ref-content">
+      <!-- Summarized references -->
+      <strong>Feeder (L/M/S + 1–4)</strong><br/>
+      L: tall long body &gt;1250 lb; M: medium & 1100–1250; S: short &lt;1100.<br/>
+      <strong>Slaughter Cows</strong>: Breaker 75–80% lean; Boner 80–85%; Lean 85–90%.<br/>
+      <strong>Slaughter Bulls</strong>: YG 1–3 as per report.
+    </div>
+
+    <!-- Dynamic fields for replacement -->
+    <div id="stageDiv" style="display:none">
+      <label for="stage">Cow Stage</label>
+      <select id="stage">
+        <option value="O">Open</option><option value="T1">T1</option><option value="T1-2">T1-2</option>
+        <option value="T2">T2</option><option value="T2-3">T2-3</option><option value="T3">T3</option><option value="T1-3">T1-3</option>
+      </select>
+      <button class="ref-btn" onclick="toggleRef('pregRef')">📘 Pregnancy Stage Ref</button>
+      <div id="pregRef" class="ref-content">
+        O=open; T1=1–3 mo; T1-2=1–6 mo; T2=4–6 mo; T2-3=4–9 mo; T3=7–9 mo; T1-3=1–9 mo.
+      </div>
+    </div>
+
+    <div id="calfDiv" style="display:none">
+      <label for="calfW">Calf Weight</label>
+      <select id="calfW">
+        <option value="<150">&lt;150</option><option value="150-300">150–300</option><option value=">300">&gt;300</option>
+      </select>
+      <button class="ref-btn" onclick="toggleRef('calfRef')">📘 Calf Weight Ref</button>
+      <div id="calfRef" class="ref-content">
+        &lt;150=Light nursing; 150–300=Typical weaning; &gt;300=Heavy/older.
+      </div>
+    </div>
+
+    <!-- Auction Terms & Conditions -->
+    <button class="ref-btn" onclick="toggleRef('termsRef')">📘 Auction Terms</button>
+    <div id="termsRef" class="ref-content">
+      Value Added, Per Head, Gaunt, Full, Fancy, Fleshy, Thin, Short, Long, Unweaned, Weaned, Preconditioned, Test Open, Exposed, Solid Mouth, Broken Mouth, 3‑in‑1, Pair, Short Bred, Heavy Bred.
+    </div>
+
+    <!-- Sale Condition Codes -->
+    <button class="ref-btn" onclick="toggleRef('condRef')">📘 Sale Condition Codes</button>
+    <div id="condRef" class="ref-content">
+      Codes like “PH” (Per Head), “QL” (Quality Load), “SC” (Source Verified), etc., as per your reports.
+    </div>
+
+    <button onclick="calculate()">Calculate Value</button>
+    <div id="result"></div>
   </div>
+
   <script>
-    function toggleRef(id) {
-      const el = document.getElementById(id);
-      el.style.display = el.style.display === "block" ? "none" : "block";
+    // Sample data map—replace with all bracketed prices from your July 11 report
+    const pricing = {
+      feeder: {
+        Steers: { 'Medium 1': 150.00, /* … */ },
+        Heifers: { 'Medium 1': 145.00, /* … */ },
+        Bulls:   { 'Medium 1': 160.00, /* … */ }
+      },
+      slaughter: {
+        Cows: { Breaker: 153.34, Boner: 158.87, Lean: 145.75 },
+        Bulls: { 1:181.97, 2:194.62, 3:178.32 }
+      },
+      replacement: {
+        'Stock Cows': { 'Large 1': 221.47, /* … */ },
+        'Bred Cows':   { 'Large 1': 1831.40, /* … */ },
+        'Bred Heifers':{ 'Large 1': 186.09, /* … */ },
+        'Cow‑Calf Pairs':{'Large 1':225.00, /* … */}
+      }
+    };
+
+    function buildSub(){
+      const cat = document.getElementById('category').value;
+      const sub = document.getElementById('subcat');
+      sub.innerHTML='';
+      sub.disabled = !cat;
+      if(!cat) return;
+      Object.keys(pricing[cat]).forEach(k=>{
+        const o=new Option(k,k); sub.add(o);
+      });
+      buildClass();
+    }
+
+    function buildClass(){
+      const cat=document.getElementById('category').value;
+      const sc=document.getElementById('subcat').value;
+      const cl=document.getElementById('clazz');
+      cl.innerHTML=''; cl.disabled = !sc;
+      if(!sc) return;
+      Object.keys(pricing[cat][sc]).forEach(k=>{
+        cl.add(new Option(k,k));
+      });
+      maybeStage();
+    }
+
+    function maybeStage(){
+      const cat=document.getElementById('category').value;
+      const sc=document.getElementById('subcat').value;
+      const show = cat==='replacement' && ['Bred Cows','Bred Heifers','Cow‑Calf Pairs'].includes(sc);
+      document.getElementById('stageDiv').style.display = show?'block':'none';
+      document.getElementById('calfDiv').style.display = (sc==='Cow‑Calf Pairs')?'block':'none';
+    }
+
+    function calculate(){
+      const cat=document.getElementById('category').value;
+      const sc=document.getElementById('subcat').value;
+      const cl=document.getElementById('clazz').value;
+      const w= parseFloat(document.getElementById('weight').value);
+      if(!cat||!sc||!cl||isNaN(w)||w<=0){
+        return document.getElementById('result').innerText='Please fill in all required fields.';
+      }
+      let price = pricing[cat][sc][cl];
+      let total = (w/100)*price;
+      // Cow‑Calf pairs: add calf
+      if(sc==='Cow‑Calf Pairs'){
+        const cw=document.getElementById('calfW').value;
+        const calfPrice = { '<150':100,'150-300':120,'>300':140 }[cw]; 
+        total += (parseFloat(document.getElementById('weight').value)/100)*calfPrice;
+      }
+      document.getElementById('result').innerText =
+        `Price/CWT: $${price.toFixed(2)} → Total: $${total.toFixed(2)}`;
+    }
+
+    function toggleRef(id){
+      const e=document.getElementById(id);
+      e.style.display = e.style.display==='block'?'none':'block';
     }
   </script>
 </body>
